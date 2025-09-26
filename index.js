@@ -2,7 +2,7 @@ const incrementation = (n1,n2) => n1 + n2;
 const decrementation = (n1,n2) => n1 - n2;
 const multiplication = (n1,n2) => n1 * n2;
 const division = (n1,n2) => n1 / n2;
-//123
+
 function getOperationFunc(sign)
 {
         switch(sign)
