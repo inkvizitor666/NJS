@@ -19,7 +19,7 @@ function getOperationFunc(sign) {
   }
 }
 
-function calculate(...args) {
+function calculate(args) {
   console.log(args);
 
   let argsRedon = [];
@@ -65,7 +65,6 @@ function parserString(string) {
         const lastElementItem = arrPars[lastIndex]
         if(!Number.isNaN(Number(lastElementItem)))
         {
-            
             const lastResult = String(lastElementItem) + String (string[i]);
             arrPars[lastIndex] = Number(lastResult)
         }
@@ -73,7 +72,6 @@ function parserString(string) {
         {
           arrPars.push(num);
         }
-      
     }
   }
   return arrPars;
@@ -106,4 +104,4 @@ function parserStringTest() {
   return;
 }
 
-parserStringTest();
+console.log(calculate(parserString("4-6*4-1167+2*336")));
