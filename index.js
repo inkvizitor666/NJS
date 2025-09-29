@@ -67,8 +67,6 @@ function parserString(string) {
         {
             
             const lastResult = String(lastElementItem) + String (string[i]);
-
-            //arrPars[lastIndex] = String(lastElementItem) + String (string[i]);
             arrPars[lastIndex] = Number(lastResult)
         }
         else
@@ -88,8 +86,8 @@ function parserStringTest() {
       result: [4, "-", 6, "*", 4, "-", 1, "+", 2, "*", 6],
     },
     {
-      arg: "4-6*4-11+2*6",
-      result: [4, "-", 6, "*", 4, "-", 11, "+", 2, "*", 6],
+      arg: "4-6*4-1167+2*336",
+      result: [4, "-", 6, "*", 4, "-", 1167, "+", 2, "*", 336],
     },
   ];
 
