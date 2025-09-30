@@ -19,7 +19,10 @@ function getOperationFunc(sign) {
   }
 }
 
-function calculate(args) {
+function calculate(str) {
+  
+  const args = parserString(str);
+
   console.log(args);
 
   let argsRedon = [];
@@ -104,4 +107,5 @@ function parserStringTest() {
   return;
 }
 
-console.log(calculate(parserString("4-6*4-1167+2*336")));
+
+console.log(calculate("4-6*4-1167+2*336"));
