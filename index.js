@@ -20,13 +20,11 @@ function getOperationFunc(sign) {
 }
 
 function calculate(str) {
-  
   const args = parserString(str);
 
   console.log(args);
 
-  let argsRedon = [];
-  let result = args[0];
+  const argsRedon = [];
 
   for (let i = 1; i < args.length; i = i + 2) {
     const sign = args[i];
@@ -43,7 +41,7 @@ function calculate(str) {
       argsRedon.push(sign, buf);
     }
   }
-  result = argsRedon[0];
+  let result = argsRedon[0];
 
   for (let i = 1; i < argsRedon.length; i = i + 2) {
     const sign = argsRedon[i];
@@ -64,17 +62,13 @@ function parserString(string) {
     if (Number.isNaN(num)) {
       arrPars.push(string[i]);
     } else {
-        const lastIndex = arrPars.length-1;
-        const lastElementItem = arrPars[lastIndex]
-        if(!Number.isNaN(Number(lastElementItem)))
-        {
-            const lastResult = String(lastElementItem) + String (string[i]);
-            arrPars[lastIndex] = Number(lastResult)
-        }
-        else
-        {
-          arrPars.push(num);
-        }
+      const lastIndex = arrPars.length - 1;
+      const lastElementItem = arrPars[lastIndex];
+      if (!Number.isNaN(Number(lastElementItem))) {
+        arrPars[lastIndex] = Number(`${lastElementItem}${string[i]}`);
+      } else {
+        arrPars.push(num);
+      }
     }
   }
   return arrPars;
@@ -106,6 +100,5 @@ function parserStringTest() {
   });
   return;
 }
-
 
 console.log(calculate("4-6*4-1167+2*336"));
