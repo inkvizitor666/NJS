@@ -1,30 +1,11 @@
 //const {namePeople} = require('./exampleModule.js');
 //const {age1} = require('./exampleModule.js');
-const {age1,namePeople} = require('./exampleModule.js');
+//const {age1,namePeople} = require('./exampleModule.js');
+//console.log(namePeople);
+//console.log(age1);
 
-console.log(namePeople);
-console.log(age1);
+const {getOperationFunc} = require('./mathOperations.js');
 
-const incrementation = (n1, n2) => n1 + n2;
-const decrementation = (n1, n2) => n1 - n2;
-const multiplication = (n1, n2) => n1 * n2;
-const division = (n1, n2) => n1 / n2;
-
-function getOperationFunc(sign) {
-  switch (sign) {
-    case "+":
-      return incrementation;
-    case "-":
-      return decrementation;
-    case "*":
-      return multiplication;
-    case "/":
-      return division;
-    default:
-      console.log("ERR");
-      return null;
-  }
-}
 
 function calculate(str) {
   const args = parserString(str);
@@ -108,4 +89,4 @@ function parserStringTest() {
   return;
 }
 
-//console.log(calculate("4-6*4-1167+2*336"));
+console.log(calculate("4-6*4-1167+2*336"));
