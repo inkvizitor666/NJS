@@ -1,3 +1,10 @@
+//const {namePeople} = require('./exampleModule.js');
+//const {age1} = require('./exampleModule.js');
+const {age1,namePeople} = require('./exampleModule.js');
+
+console.log(namePeople);
+console.log(age1);
+
 const incrementation = (n1, n2) => n1 + n2;
 const decrementation = (n1, n2) => n1 - n2;
 const multiplication = (n1, n2) => n1 * n2;
@@ -101,4 +108,4 @@ function parserStringTest() {
   return;
 }
 
-console.log(calculate("4-6*4-1167+2*336"));
+//console.log(calculate("4-6*4-1167+2*336"));
