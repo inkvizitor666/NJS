@@ -5,12 +5,12 @@
 //console.log(age1);
 
 const {getOperationFunc} = require('./mathOperations.js');
-const {parserString} = require('./parserString.js');
+const {parserString, testFunction} = require('./parserString.js');
 
 function calculate(str) {
   const args = parserString(str);
 
-  console.log(args);
+  //console.log(args);
 
   const argsRedon = [];
 
@@ -42,6 +42,16 @@ function calculate(str) {
   return result;
 }
 
+  const testCases = [
+    {
+      arg: "4-6*4-1+2*6",
+      result: [4, "-", 6, "*", 4, "-", 1, "+", 2, "*", 6],
+    },
+    {
+      arg: "4-6*4-1167+2*336",
+      result: [4, "-", 6, "*", 4, "-", 1167, "+", 2, "*", 336],
+    },
+  ];
 
-
+testFunction(testCases);
 console.log(calculate("4-6*4-1167+2*336"));

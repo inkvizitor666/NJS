@@ -17,34 +17,31 @@ function parserString(string) {
   }
   return arrPars;
 }
-function parserStringTest() {
-  const testCases = [
-    {
-      arg: "4-6*4-1+2*6",
-      result: [4, "-", 6, "*", 4, "-", 1, "+", 2, "*", 6],
-    },
-    {
-      arg: "4-6*4-1167+2*336",
-      result: [4, "-", 6, "*", 4, "-", 1167, "+", 2, "*", 336],
-    },
-  ];
 
+//функция принимает аргумент testCase(массив с обьектами с ключами  arg и result) и передает arg в функцию, при правильном результате говорит ЗВЕБУМБА при отрицательном результате ХУЙ
+
+function testFunction(testCases) {
+  if(!testCases)
+  {
+    throw new Error('шары разуй тут пусто');
+  }
   testCases.forEach((testCase) => {
+    const result = parserString(testCase.arg);
     if (
       JSON.stringify(testCase.result) ===
-      JSON.stringify(parserString(testCase.arg))
+      JSON.stringify(result)
     ) {
       console.log("заебумба");
     } else {
       console.log("хуй");
     }
     console.log(testCase.result);
-    console.log(parserString(testCase.arg));
+    console.log(result);
   });
-  return;
+  return ;
 }
 
 module.exports = {
     parserString,
-    parserStringTest
+    testFunction
 }
