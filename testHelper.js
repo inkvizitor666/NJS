@@ -10,7 +10,7 @@ function testFunction(testFn,testCases) {
     const result = testFn(testCase.arg);
     const isEqel = JSON.stringify(testCase.result) === JSON.stringify(result)
 
-    const message = `\nтестирование функции\t${testFn.name}\nпередаваемый аргумент \t(${testCase.arg}),\nожидаемый результат \t${testCase.result},\nфактический результат \t${result},\n${isEqel ? `тест пройден ${String.fromCodePoint(0x2705)}`: `тест не пройден ${String.fromCodePoint(0x1F621)}`}`;
+    const message = `\nтестирование функции\t${testFn.name}\nпередаваемый аргумент \t${testCase.arg},\nожидаемый результат \t${testCase.result},\nфактический результат \t${result},\n${isEqel ? `тест пройден ${String.fromCodePoint(0x2705)}`: `тест не пройден ${String.fromCodePoint(0x1F621)}`}`;
     const fnLog = isEqel ? console.info : console.error;
 
     fnLog(message);
