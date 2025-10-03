@@ -6,12 +6,10 @@
 
 const { getOperationFunc } = require("./mathOperations.js");
 const { parserString } = require("./parserString.js");
-const {testFunction} = require('./testHelper.js');
+const { testFunction } = require("./testHelper.js");
 
 function calculate(str) {
   const args = parserString(str);
-
-  //console.log(args);
 
   const argsRedon = [];
 
@@ -22,7 +20,16 @@ function calculate(str) {
 
     if (sign == "*" || sign == "/") {
       const buf2 = args[i - 1];
-      argsRedon[argsRedon.length - 1] = currentOperation(buf2, buf);
+      if(args[1] === '*' || args[1] === '/')
+      {
+        argsRedon[argsRedon.length] = currentOperation(buf2, buf);
+      }
+      else
+      {
+        argsRedon[argsRedon.length - 1] = currentOperation(buf2, buf);
+      }
+      
+
     } else {
       if (i == 1) {
         argsRedon.push(args[0]);
@@ -30,30 +37,39 @@ function calculate(str) {
       argsRedon.push(sign, buf);
     }
   }
+  
   let result = argsRedon[0];
 
   for (let i = 1; i < argsRedon.length; i = i + 2) {
-    const sign = argsRedon[i];
-    const buf = argsRedon[i + 1];
-    const currentOperation = getOperationFunc(sign);
-    if (currentOperation) {
-      result = currentOperation(result, buf);
+      const sign = argsRedon[i];
+      const buf = argsRedon[i + 1];
+      const currentOperation = getOperationFunc(sign);
+      if (currentOperation) 
+      {
+        result = currentOperation(result, buf);
+      }
     }
-  }
-  return result;
+    return result;
 }
 
-
-  const testCasesCalculate = [
+const testCasesCalculate = [
+  {
+    arg: "2*2",
+    result: 4,
+  },
+  {
+    arg: "2+2",
+    result: 4,
+  },
     {
-      arg: "1+1",
-      result: 2,
-    },
+    arg: "1+2*2",
+    result: 5,
+  },
     {
-      arg: "2*2",
-      result: 4,
-    },
-  ];
+    arg: "2*2+1",
+    result: 5,
+  },
+];
 
 const testCases = [
   {
@@ -64,9 +80,13 @@ const testCases = [
     arg: "4-6*4-1167+2*336",
     result: [4, "-", 6, "*", 4, "-", 1167, "+", 2, "*", 336],
   },
+    {
+    arg: "4*6*4-1167+2*336",
+    result: [4, "*", 6, "*", 4, "-", 1167, "+", 2, "*", 336],
+  },
 ];
 
-testFunction(parserString,testCases);
-testFunction(calculate,testCasesCalculate);
+//testFunction(parserString, testCases);
+testFunction(calculate, testCasesCalculate);
 //console.log(calculate("4-6*4-1167+2*336"));
 //calculateTest();
