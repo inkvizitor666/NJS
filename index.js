@@ -11,7 +11,7 @@ const { testFunction } = require("./testHelper.js");
 function calculate(str) {
   const args = parserString(str);
 
-  const argsRedon = [];
+  const argsRedon = [args[0]];
 
   for (let i = 1; i < args.length; i = i + 2) {
     const sign = args[i];
@@ -19,21 +19,18 @@ function calculate(str) {
     const currentOperation = getOperationFunc(sign);
 
     if (sign == "*" || sign == "/") {
-      const buf2 = args[i - 1];
-      if (args[1] === "*" || args[1] === "/") {
-        argsRedon[argsRedon.length] = currentOperation(buf2, buf);
-      } else {
+      const buf2 = argsRedon[argsRedon.length - 1];
         argsRedon[argsRedon.length - 1] = currentOperation(buf2, buf);
-      }
     } else {
-      if (i == 1) {
-        argsRedon.push(args[0]);
-      }
       argsRedon.push(sign, buf);
     }
   }
 
   let result = argsRedon[0];
+  if(argsRedon.length === 1)
+  {
+    return result;
+  }
 
   for (let i = 1; i < argsRedon.length; i = i + 2) {
     const sign = argsRedon[i];
@@ -68,8 +65,8 @@ const testCasesCalculate = [
     result: 14,
   },
   {
-    arg: "2*2/1*10",
-    result: 40,
+    arg: "200*2/1*190",
+    result: 76000,
   },
 ];
 
