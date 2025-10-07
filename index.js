@@ -1,12 +1,6 @@
-//const {namePeople} = require('./exampleModule.js');
-//const {age1} = require('./exampleModule.js');
-//const {age1,namePeople} = require('./exampleModule.js');
-//console.log(namePeople);
-//console.log(age1);
-
-import { getOperationFunc } from "./mathOperations.mjs";
-import { parserString as myParsString } from"./parserString.mjs";
-import { testFunction } from"./testHelper.mjs";
+import { getOperationFunc } from "./mathOperations.js";
+import { parserString as myParsString } from"./parserString.js";
+import { testFunction } from"./testHelper.js";
 
 function calculate(str) {
   const args = myParsString(str);
