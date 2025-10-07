@@ -18,6 +18,6 @@ function testFunction(testFn,testCases) {
   return ;
 }
 
-module.exports = {
+export{
     testFunction
 }

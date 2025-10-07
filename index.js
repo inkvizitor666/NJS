@@ -4,12 +4,12 @@
 //console.log(namePeople);
 //console.log(age1);
 
-const { getOperationFunc } = require("./mathOperations.js");
-const { parserString } = require("./parserString.js");
-const { testFunction } = require("./testHelper.js");
+import { getOperationFunc } from "./mathOperations.mjs";
+import { parserString as myParsString } from"./parserString.mjs";
+import { testFunction } from"./testHelper.mjs";
 
 function calculate(str) {
-  const args = parserString(str);
+  const args = myParsString(str);
 
   const argsRedon = [args[0]];
 

@@ -1,4 +1,4 @@
-function parserString(string) {
+export function parserString(string) {
   let arrPars = [];
 
   for (let i = 0; i < string.length; i++) {
@@ -16,8 +16,4 @@ function parserString(string) {
     }
   }
   return arrPars;
-}
-
-module.exports = {
-    parserString,
 }
