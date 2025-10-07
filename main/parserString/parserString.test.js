@@ -1,5 +1,5 @@
-const { parserString } = require("./parserString.js");
-const { testFunction } = require("./testHelper.js");
+import { parserString } from "./parserString.js";
+import { testFunction } from"../testHelper.js";
 
 
 
