@@ -4,7 +4,7 @@
   "description": "учебный проект разработка калькулятора",
   "main": "index.js",
   "scripts": {
-    "dev":"node --watch index.js",
+    "dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/inkvizitor666/NJS/issues"
   },
-  "homepage": "https://github.com/inkvizitor666/NJS#readme"
+  "homepage": "https://github.com/inkvizitor666/NJS#readme",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
 }
