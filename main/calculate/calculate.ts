@@ -1,5 +1,5 @@
-import { getOperationFunc } from "../mathOperations.ts";
-import { parserString as myParsString } from "../parserString/parserString.ts";
+import { getOperationFunc } from "../mathOperations";
+import { parserString as myParsString } from "../parserString/parserString";
 
 export function calculate(str: string) {
   const args = myParsString(str);

@@ -1,1 +1,1 @@
-export { calculate } from "./calculate.ts";
+export { calculate } from "./calculate";

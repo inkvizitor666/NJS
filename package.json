@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "учебный проект разработка калькулятора",
   "main": "index.js",
+  
   "scripts": {
-    "dev": "node --watch index.js",
+    "devjs": "node --watch ./dist/index.js",
+    "devts":"npx tsc --watch",
+    "dev":"npm run devjs & npm run devts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,4 +23,5 @@
   "devDependencies": {
     "typescript": "^5.9.3"
   }
+
 }
