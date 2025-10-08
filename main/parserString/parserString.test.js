@@ -1,4 +1,4 @@
-import { parserString } from "./parserString.js";
+import { parserString } from "./parserString.ts";
 import { testFunction } from"../testHelper.js";
 
 
