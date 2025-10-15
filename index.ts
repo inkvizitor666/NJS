@@ -1,5 +1,23 @@
-import { calculate } from "./main/calculate/index";
+import * as express from 'express'
+import { calculate } from "./main/calculate/calculate";
 
-console.log(calculate('200*2/1*190/2'));
-//console.log(calculate("4-6*4-1167+2*336"));
-//calculateTest();
+const app = express()
+console.log("тёма жук");
+
+const result = calculate('200*2/1*190');
+
+
+
+app.get('/calculate', (req, res) => {
+  res.send(result);
+});
+
+
+
+app.get('/hello', (req, res) => {
+    res.send('Hello World3');
+});
+
+app.listen(3000)
+
+console.log();

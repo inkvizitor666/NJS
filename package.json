@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "учебный проект разработка калькулятора",
   "main": "index.js",
-  
   "scripts": {
     "devjs": "node --watch ./dist/index.js",
-    "devts":"npx tsc --watch",
-    "dev":"npm run devjs & npm run devts",
+    "devts": "npx tsc --watch",
+    "dev": "npm run devts & npm run devjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,7 +20,10 @@
   },
   "homepage": "https://github.com/inkvizitor666/NJS#readme",
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
   }
-
 }
