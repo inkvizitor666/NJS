@@ -10,12 +10,6 @@ app.get("/calculate", (req, res) => {
   res.send(result);
 });
 
-//https://www.tema-juk.yes/calculate/?name=anatoliy&age=12
-
-/* const query = {
-  name: 'anatoliy',
-  age: 12
-}  */
 let dbUsers = [
   {
     id: "1",
@@ -111,6 +105,19 @@ app.get("/users", (req, res) => {
   return;
 });
 
-//123
+//###########################################
+
+app.get("/calculate", (req, res) => {
+  const mathematicalExpression = String(req.query.mathExp);
+
+  if (mathematicalExpression) {
+    res.send(`ERROR mathematicalExpression: ${mathematicalExpression}`);
+    return;
+  }
+  const resultMathematicalExpression = calculate(mathematicalExpression);
+  res.send(`Пользователь с ID ${resultMathematicalExpression} не найден`);
+});
+
+//###########################################
 app.listen(3000);
 console.log();
