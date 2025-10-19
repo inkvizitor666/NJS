@@ -23,19 +23,19 @@ let dbUsers = [
   },
 ];
 
-app.get("/user", (req, res) => {
-  const id = req.query.id;
+app.get("/user/:userID/", (req, res) => {
+  const { userID } = req.params;
 
-  if (!id) {
+  if (!userID) {
     res.send(`ID поле АБЯЗАТИЛЬНА!!!!`);
     return;
   }
 
   const findUser = dbUsers.find((user) => {
-    return user.id == id;
+    return user.id == userID;
   });
   if (!findUser) {
-    res.send(`Пользователь с ID:${id} не найден`);
+    res.send(`Пользователь с ID:${userID} не найден`);
     return;
   }
 
@@ -60,44 +60,44 @@ app.post("/user", (req, res) => {
   }
 });
 
-app.put("/user", (req, res) => {
-  const id = req.query.id;
+app.put("/user/:userID/", (req, res) => {
+  const { userID } = req.params;
   const name = req.query.name;
   const age = Number(req.query.age);
 
-  if (typeof id == "string" && typeof name == "string" && !isNaN(age)) {
+  if (typeof userID == "string" && typeof name == "string" && !isNaN(age)) {
     const findUserIndex = dbUsers.findIndex((user) => {
-      return user.id == id;
+      return user.id == userID;
     });
 
     if (findUserIndex != -1) {
       dbUsers[findUserIndex] = {
-        id: id,
+        id: userID,
         name: name,
         age: age,
       };
 
-      res.send(`Пользователь с ID:${id} успешно изменён`);
+      res.send(`Пользователь с ID:${userID} успешно изменён`);
       return;
     }
-    res.send(`Пользователь с ID:${id} не найден`);
+    res.send(`Пользователь с ID:${userID} не найден`);
   }
 });
 
-app.delete("/user", (req, res) => {
-  const idUser = req.query.id;
+app.delete("/user/:userID/", (req, res) => {
+  const { userID } = req.params;
 
   const findUser = dbUsers.find((user) => {
-    return user.id == idUser;
+    return user.id == userID;
   });
 
   if (findUser) {
-    const bufDbUser = dbUsers.filter((bufId) => bufId.id !== idUser);
+    const bufDbUser = dbUsers.filter((bufId) => bufId.id !== userID);
     dbUsers = bufDbUser;
-    res.send(`Пользователь с ID ${idUser} удален`);
+    res.send(`Пользователь с ID ${userID} удален`);
     return;
   }
-  res.send(`Пользователь с ID ${idUser} не найден`);
+  res.send(`Пользователь с ID ${userID} не найден`);
 });
 
 app.get("/users", (req, res) => {
