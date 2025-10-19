@@ -1,5 +1,12 @@
 import * as express from "express";
 import { calculate } from "./main/calculate/calculate";
+import {
+  deleteUser,
+  getUserById,
+  getUsers,
+  postUser,
+  putUser,
+} from "./main/user/api";
 
 const app = express();
 app.use(express.json());
@@ -10,106 +17,15 @@ app.get("/calculate", (req, res) => {
   res.send(result);
 });
 
-let dbUsers = [
-  {
-    id: "1",
-    name: "artem",
-    age: 28,
-    friends: [{ id: "2", name: "vika", age: 18 }],
-  },
-  {
-    id: "2",
-    name: "vika",
-    age: 18,
-    friends: [],
-  },
-];
+app.get("/user/:userID/", getUserById);
 
-app.get("/user/:userID/", (req, res) => {
-  const { userID } = req.params;
+app.post("/user", postUser);
 
-  if (!userID) {
-    res.send(`ID поле АБЯЗАТИЛЬНА!!!!`);
-    return;
-  }
+app.put("/user/:userID/", putUser);
 
-  const findUser = dbUsers.find((user) => {
-    return user.id == userID;
-  });
-  if (!findUser) {
-    res.send(`Пользователь с ID:${userID} не найден`);
-    return;
-  }
+app.delete("/user/:userID/", deleteUser);
 
-  res.send(`Имя ${findUser?.name}  возраст ${findUser?.age}`);
-});
-
-app.post("/user", (req, res) => {
-  const id = Math.ceil(Math.random() * 1000);
-  const name = req.body.name;
-  const age = Number(req.body.age);
-  const friends = req.body.friends;
-
-  if (typeof name == "string" && !isNaN(age)) {
-    dbUsers.push({
-      id: String(id),
-      name: name,
-      age: age,
-      friends: friends,
-    });
-
-    res.send(`Пользователь успешно создан ID ${id}`);
-  } else {
-    res.send(`ERR`);
-  }
-});
-
-app.put("/user/:userID/", (req, res) => {
-  const { userID } = req.params;
-  const name = req.body.name;
-  const age = Number(req.body.age);
-  const friends = req.body.friends;
-
-  if (typeof userID == "string" && typeof name == "string" && !isNaN(age)) {
-    const findUserIndex = dbUsers.findIndex((user) => {
-      return user.id == userID;
-    });
-
-    if (findUserIndex != -1) {
-      dbUsers[findUserIndex] = {
-        id: userID,
-        name: name,
-        age: age,
-        friends: friends,
-      };
-
-      res.send(`Пользователь с ID:${userID} успешно изменён`);
-      return;
-    }
-    res.send(`Пользователь с ID:${userID} не найден`);
-  }
-});
-
-app.delete("/user/:userID/", (req, res) => {
-  const { userID } = req.params;
-
-  const findUser = dbUsers.find((user) => {
-    return user.id == userID;
-  });
-
-  if (findUser) {
-    const bufDbUser = dbUsers.filter((bufId) => bufId.id !== userID);
-    dbUsers = bufDbUser;
-    res.send(`Пользователь с ID ${userID} удален`);
-    return;
-  }
-  res.send(`Пользователь с ID ${userID} не найден`);
-});
-
-app.get("/user", (req, res) => {
-  res.json(dbUsers);
-  return;
-});
+app.get("/user", getUsers);
 
 //###########################################
 
