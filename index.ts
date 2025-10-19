@@ -2,7 +2,7 @@ import * as express from "express";
 import { calculate } from "./main/calculate/calculate";
 
 const app = express();
-console.log("тёма жук");
+app.use(express.json());
 
 const result = calculate("200*2/1*190");
 
@@ -44,8 +44,8 @@ app.get("/user/:userID/", (req, res) => {
 
 app.post("/user", (req, res) => {
   const id = Math.ceil(Math.random() * 1000);
-  const name = req.query.name;
-  const age = Number(req.query.age);
+  const name = req.body.name;
+  const age = Number(req.body.age);
 
   if (typeof name == "string" && !isNaN(age)) {
     dbUsers.push({
@@ -62,8 +62,8 @@ app.post("/user", (req, res) => {
 
 app.put("/user/:userID/", (req, res) => {
   const { userID } = req.params;
-  const name = req.query.name;
-  const age = Number(req.query.age);
+  const name = req.body.name;
+  const age = Number(req.body.age);
 
   if (typeof userID == "string" && typeof name == "string" && !isNaN(age)) {
     const findUserIndex = dbUsers.findIndex((user) => {
@@ -100,7 +100,7 @@ app.delete("/user/:userID/", (req, res) => {
   res.send(`Пользователь с ID ${userID} не найден`);
 });
 
-app.get("/users", (req, res) => {
+app.get("/user", (req, res) => {
   res.json(dbUsers);
   return;
 });
@@ -120,4 +120,4 @@ app.get("/calculate", (req, res) => {
 
 //###########################################
 app.listen(3000);
-console.log();
+console.log("МЫ СТАРТАНУЛИ!");
