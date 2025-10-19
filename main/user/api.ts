@@ -101,3 +101,6 @@ export const getUsers = (req: ExpressRequest, res: ExpressResponse) => {
   res.json(dbUsers);
   return;
 };
+//##############################FRIENDS################################
+
+//реализовать методы post delete get, post- добавить друга к пользователю по ID , delete - удалить друга по ID , get - получить всех друзей пользователя

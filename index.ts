@@ -11,12 +11,6 @@ import {
 const app = express();
 app.use(express.json());
 
-const result = calculate("200*2/1*190");
-
-app.get("/calculate", (req, res) => {
-  res.send(result);
-});
-
 app.get("/user/:userID/", getUserById);
 
 app.post("/user", postUser);
