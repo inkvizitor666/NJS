@@ -12,5 +12,7 @@
 
     "strict": true,
     "skipLibCheck": true,
+    "noUncheckedIndexedAccess": true,
+
   }
 }
