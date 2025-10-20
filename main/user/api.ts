@@ -138,9 +138,7 @@ export const getFriends = (req: ExpressRequest, res: ExpressResponse) => {
 
   const userIndex = dbUsers.findIndex((user) => user.id === userID);
 
-  res.send(
-    `У пользователя ${userID} => : ${res.json(dbUsers[userIndex].friends)}`
-  );
+  res.send(`У пользователя ${userID} => : ${res.json(findUser.friends)}`);
   return;
 };
 
@@ -168,13 +166,11 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
   );
 
   if (findUser) {
-    const bufDbUser = dbUsers[userIndex].friends.filter(
-      (findUsers: Ifriend) => {
-        findUsers.friends[friendIndex].id !== friendID;
-        console.log(findUsers.friends[friendIndex]);
-      }
-    );
-    dbUsers[userIndex].friends = bufDbUser;
+    const bufDbUser = findUser.friends.filter((findUsers: Ifriend) => {
+      findUser.friends[friendIndex]?.id !== friendID;
+      console.log(findUsers.friends[friendIndex]);
+    });
+    findUser.friends = bufDbUser;
     res.send(`Друг с ID ${friendID} удален`);
     return;
   }
