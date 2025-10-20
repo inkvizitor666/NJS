@@ -135,11 +135,7 @@ export const getFriends = (req: ExpressRequest, res: ExpressResponse) => {
     res.send(`Пользователь с ID:${userID} не найден`);
     return;
   }
-
-  const userIndex = dbUsers.findIndex((user) => user.id === userID);
-
   res.send(`У пользователя ${userID} => : ${res.json(findUser.friends)}`);
-  return;
 };
 
 export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
@@ -159,7 +155,6 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
     res.send(`Пользователь с ID:${userID} не найден`);
     return;
   }
-  const userIndex = dbUsers.findIndex((user) => user.id === userID);
 
   const friendIndex = findUser.friends.findIndex(
     (user) => user.id === friendID
@@ -167,8 +162,8 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
 
   if (findUser) {
     const bufDbUser = findUser.friends.filter((findUsers: Ifriend) => {
-      findUser.friends[friendIndex]?.id !== friendID;
-      console.log(findUsers.friends[friendIndex]);
+      findUsers.friends[friendIndex]?.id !== friendID;
+      console.log(findUser.friends[friendIndex]?.id);
     });
     findUser.friends = bufDbUser;
     res.send(`Друг с ID ${friendID} удален`);
