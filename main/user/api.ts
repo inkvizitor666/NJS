@@ -2,13 +2,21 @@ import {
   Request as ExpressRequest,
   Response as ExpressResponse,
 } from "../../node_modules/@types/express";
+import { Ifriend, IUser } from "./type";
 
 let dbUsers = [
   {
     id: "1",
     name: "artem",
     age: 28,
-    friends: [{ id: "2", name: "vika", age: 18 }],
+    friends: [
+      { id: "2", name: "vika", age: 18, friends: [] },
+      { id: "5", name: "nina1", age: 50, friends: [] },
+      { id: "6", name: "nina2", age: 50, friends: [] },
+      { id: "7", name: "nina3", age: 50, friends: [] },
+      { id: "8", name: "nina4", age: 50, friends: [] },
+      { id: "9", name: "nina5", age: 50, friends: [] },
+    ],
   },
   {
     id: "2",
@@ -16,7 +24,15 @@ let dbUsers = [
     age: 18,
     friends: [],
   },
+  {
+    id: "3",
+    name: "stas",
+    age: 40,
+    friends: [],
+  },
 ];
+
+//##############################USER################################
 
 export const getUserById = (req: ExpressRequest, res: ExpressResponse) => {
   const { userID } = req.params;
@@ -80,7 +96,6 @@ export const putUser = (req: ExpressRequest, res: ExpressResponse) => {
     res.send(`Пользователь с ID:${userID} не найден`);
   }
 };
-
 export const deleteUser = (req: ExpressRequest, res: ExpressResponse) => {
   const { userID } = req.params;
 
@@ -96,11 +111,72 @@ export const deleteUser = (req: ExpressRequest, res: ExpressResponse) => {
   }
   res.send(`Пользователь с ID ${userID} не найден`);
 };
-
 export const getUsers = (req: ExpressRequest, res: ExpressResponse) => {
   res.json(dbUsers);
   return;
 };
 //##############################FRIENDS################################
 
-//реализовать методы post delete get, post- добавить друга к пользователю по ID , delete - удалить друга по ID , get - получить всех друзей пользователя
+//реализовать методы post delete get,
+// post- добавить друга к пользователю по ID ,
+// delete - удалить друга по ID ,
+
+export const getFriends = (req: ExpressRequest, res: ExpressResponse) => {
+  const { userID } = req.params;
+
+  if (!userID) {
+    res.send(`Укажите ID`);
+    return;
+  }
+  const findUser = dbUsers.find((user) => {
+    return user.id == userID;
+  });
+  if (!findUser) {
+    res.send(`Пользователь с ID:${userID} не найден`);
+    return;
+  }
+
+  const userIndex = dbUsers.findIndex((user) => user.id === userID);
+
+  res.send(
+    `У пользователя ${userID} => : ${res.json(dbUsers[userIndex].friends)}`
+  );
+  return;
+};
+
+export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
+  const { userID, friendID } = req.params;
+  if (!userID) {
+    res.send(`Укажите ID пользователя`);
+    return;
+  }
+  if (!friendID) {
+    res.send(`Укажите ID друга`);
+    return;
+  }
+  const findUser = dbUsers.find((user) => {
+    return user.id == userID;
+  });
+  if (!findUser) {
+    res.send(`Пользователь с ID:${userID} не найден`);
+    return;
+  }
+  const userIndex = dbUsers.findIndex((user) => user.id === userID);
+
+  const friendIndex = findUser.friends.findIndex(
+    (user) => user.id === friendID
+  );
+
+  if (findUser) {
+    const bufDbUser = dbUsers[userIndex].friends.filter(
+      (findUsers: Ifriend) => {
+        findUsers.friends[friendIndex].id !== friendID;
+        console.log(findUsers.friends[friendIndex]);
+      }
+    );
+    dbUsers[userIndex].friends = bufDbUser;
+    res.send(`Друг с ID ${friendID} удален`);
+    return;
+  }
+  res.send(`Друг с ID ${friendID} не найден`);
+};
