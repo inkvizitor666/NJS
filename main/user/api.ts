@@ -156,16 +156,17 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
     return;
   }
 
+  const userIndex = dbUsers.findIndex((user) => user.id === userID);
+
   const friendIndex = findUser.friends.findIndex(
     (user) => user.id === friendID
   );
 
   if (findUser) {
-    const bufDbUser = findUser.friends.filter((findUsers: Ifriend) => {
-      findUsers.friends[friendIndex]?.id !== friendID;
-      console.log(findUser.friends[friendIndex]?.id);
-    });
-    findUser.friends = bufDbUser;
+    findUser.friends.splice(friendIndex, 1);
+    console.log(dbUsers[userIndex]?.friends);
+    console.log("++++++++++++++++++++++++++++++++++");
+    console.log(dbUsers);
     res.send(`Друг с ID ${friendID} удален`);
     return;
   }
