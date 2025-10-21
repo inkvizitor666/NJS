@@ -1,9 +1,6 @@
-import {
-  Request as ExpressRequest,
-  Response as ExpressResponse,
-} from "../../node_modules/@types/express";
+import { Request as ExpressRequest, Response as ExpressResponse } from "../../node_modules/@types/express";
 import { Ifriend, IUser } from "./type";
-
+// TODO: тут нужно использовать IUser для типизации dbUsers
 let dbUsers = [
   {
     id: "1",
@@ -135,6 +132,7 @@ export const getFriends = (req: ExpressRequest, res: ExpressResponse) => {
     res.send(`Пользователь с ID:${userID} не найден`);
     return;
   }
+  // TODO: res.send и res.json оба метода отправки, ты вначале говоришь отправь данные через send а потом снова но уже через json, оставь только json и убери преписку "У пользователя ${userID} => :", ты бек шли сырые данные, попросили список друзей ты только их и должен отправить)
   res.send(`У пользователя ${userID} => : ${res.json(findUser.friends)}`);
 };
 
@@ -156,18 +154,24 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
     return;
   }
 
-  const friendIndex = findUser.friends.findIndex(
-    (user) => user.id === friendID
-  );
+  const friendIndex = findUser.friends.findIndex((user) => user.id === friendID);
 
   if (findUser) {
-    const bufDbUser = findUser.friends.filter((findUsers: Ifriend) => {
-      findUsers.friends[friendIndex]?.id !== friendID;
-      console.log(findUser.friends[friendIndex]?.id);
-    });
+    //TODO: если типизировать dbUsers, то TS выведит сам тип findUsers
+    //TODO: Переименнуй bufDbUser по смыслу, допустим friendsWithoutDeletFriend или newFriendsArray...
+    const bufDbUser = findUser.friends.filter(
+      // TODO: ты итерируешься по массиву friends, его фильтруешь, аргумент луше назвать friend, а не findUsers
+      (findUsers: Ifriend) => {
+        //TODO: ты запутался и пошел фильтровать не то что нужно, друзья-друзей))
+        findUsers.friends[friendIndex]?.id !== friendID;
+        console.log(findUser.friends[friendIndex]?.id);
+      }
+    );
+    // TODO лучше менять массив друзей
     findUser.friends = bufDbUser;
     res.send(`Друг с ID ${friendID} удален`);
     return;
   }
   res.send(`Друг с ID ${friendID} не найден`);
 };
+// Прочитай про статусы http (404, 200, 204, 400), и попробуй добавить их во все поинты, через метод res.status
