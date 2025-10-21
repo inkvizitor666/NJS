@@ -156,19 +156,43 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
     return;
   }
 
-  const userIndex = dbUsers.findIndex((user) => user.id === userID);
-
   const friendIndex = findUser.friends.findIndex(
     (user) => user.id === friendID
   );
 
   if (findUser) {
     findUser.friends.splice(friendIndex, 1);
-    console.log(dbUsers[userIndex]?.friends);
-    console.log("++++++++++++++++++++++++++++++++++");
-    console.log(dbUsers);
     res.send(`Друг с ID ${friendID} удален`);
     return;
   }
   res.send(`Друг с ID ${friendID} не найден`);
+};
+
+export const postFriend = (req: ExpressRequest, res: ExpressResponse) => {
+  const { userID } = req.params;
+  const id = req.body.id;
+  const name = req.body.name;
+  const age = Number(req.body.age);
+  const friends = req.body.friends;
+
+  const findUser = dbUsers.find((user) => {
+    return user.id == userID;
+  });
+  if (!findUser) {
+    res.send(`Пользователь с ID:${userID} не найден`);
+    return;
+  }
+
+  if (typeof name == "string" && !isNaN(age)) {
+    findUser.friends.push({
+      id: id,
+      name: name,
+      age: age,
+      friends: friends,
+    });
+    //
+    res.send(`Добавлен друг с  ID ${id}`);
+  } else {
+    res.send(`ERR`);
+  }
 };

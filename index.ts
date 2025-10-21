@@ -6,6 +6,7 @@ import {
   getFriends,
   getUserById,
   getUsers,
+  postFriend,
   postUser,
   putUser,
 } from "./main/user/api";
@@ -21,6 +22,7 @@ app.get("/user", getUsers);
 //#################FRIENDS####################
 app.get("/user/:userID/friends/", getFriends);
 app.delete("/user/:userID/friends/:friendID", deleteFriend);
+app.post("/user/:userID/friends", postFriend);
 //################CALCULETE###################
 app.get("/calculate", (req, res) => {
   const mathematicalExpression = String(req.query.mathExp);
