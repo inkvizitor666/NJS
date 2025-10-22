@@ -32,6 +32,11 @@ let dbUsers: IUser[] = [
   },
 ];
 
+const newDbUser = new Map<string, IUser>();
+newDbUser.set("99", { id: "99", name: "nina5", age: 50, friends: [] });
+newDbUser.set("98", { id: "99", name: "nina10", age: 50, friends: [] });
+console.log(Array.from(newDbUser.values()));
+
 //##############################USER################################
 
 export const getUserById = (req: ExpressRequest, res: ExpressResponse) => {
@@ -42,31 +47,32 @@ export const getUserById = (req: ExpressRequest, res: ExpressResponse) => {
     return;
   }
 
-  const findUser = dbUsers.find((user) => {
-    return user.id == userID;
-  });
+  const findUser = newDbUser.get(userID);
   if (!findUser) {
     res.send(`Пользователь с ID:${userID} не найден`);
     return;
   }
 
-  res.send(`Имя ${findUser?.name}  возраст ${findUser?.age}`);
+  res.json(findUser);
 };
-export const postUser = (req: ExpressRequest, res: ExpressResponse) => {
-  const id = Math.ceil(Math.random() * 1000);
+export const postUser = (
+  req: ExpressRequest<any, any, Omit<IUser, "id">>,
+  res: ExpressResponse
+) => {
+  const id = String(Math.ceil(Math.random() * 1000));
   const name: String = req.body.name;
   const age = Number(req.body.age);
   const friends = req.body.friends;
 
   if (typeof name == "string" && !isNaN(age)) {
-    dbUsers.push({
-      id: String(id),
+    newDbUser.set(id, {
+      id: id,
       name: name,
       age: age,
       friends: friends,
     });
 
-    res.send(`Пользователь успешно создан ID ${id}`);
+    res.json(newDbUser.get(id));
   } else {
     res.send(`ERR`);
   }
@@ -77,42 +83,39 @@ export const putUser = (req: ExpressRequest, res: ExpressResponse) => {
   const age = Number(req.body.age);
   const friends = req.body.friends;
 
-  if (typeof userID == "string" && typeof name == "string" && !isNaN(age)) {
-    const findUserIndex = dbUsers.findIndex((user) => {
-      return user.id == userID;
-    });
-
-    if (findUserIndex != -1) {
-      dbUsers[findUserIndex] = {
-        id: userID,
-        name: name,
-        age: age,
-        friends: friends,
-      };
-
-      res.send(`Пользователь с ID:${userID} успешно изменён`);
-      return;
-    }
+  if (
+    typeof userID !== "string" ||
+    typeof name !== "string" ||
+    isNaN(age) ||
+    !newDbUser.has(userID)
+  ) {
     res.send(`Пользователь с ID:${userID} не найден`);
+    return;
   }
+  newDbUser.set(userID, {
+    id: userID,
+    name: name,
+    age: age,
+    friends: friends,
+  });
+  res.json(newDbUser.get(userID));
 };
 export const deleteUser = (req: ExpressRequest, res: ExpressResponse) => {
   const { userID } = req.params;
 
-  const findUser = dbUsers.find((user) => {
-    return user.id == userID;
-  });
-
-  if (findUser) {
-    const bufDbUser = dbUsers.filter((bufId) => bufId.id !== userID);
-    dbUsers = bufDbUser;
-    res.send(`Пользователь с ID ${userID} удален`);
+  if (!userID) {
+    res.send(`Поле ID обязательно`);
     return;
   }
-  res.send(`Пользователь с ID ${userID} не найден`);
+
+  if (!newDbUser.delete(userID)) {
+    res.send(`Пользователь с ID ${userID} не найден`);
+    return;
+  }
+  res.send(`${userID}`);
 };
 export const getUsers = (req: ExpressRequest, res: ExpressResponse) => {
-  res.json(dbUsers);
+  res.json(Array.from(newDbUser.values()));
   return;
 };
 //##############################FRIENDS################################
