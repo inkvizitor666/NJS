@@ -52,7 +52,10 @@ export const getUserById = (req: ExpressRequest, res: ExpressResponse) => {
 
   res.send(`Имя ${findUser?.name}  возраст ${findUser?.age}`);
 };
-export const postUser = (req: ExpressRequest, res: ExpressResponse) => {
+export const postUser = (
+  req: ExpressRequest<any, any, Omit<IUser, "id">>,
+  res: ExpressResponse
+) => {
   const id = Math.ceil(Math.random() * 1000);
   const name: String = req.body.name;
   const age = Number(req.body.age);
