@@ -159,6 +159,9 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
   const friendIndex = findUser.friends.findIndex(
     (user) => user.id === friendID
   );
+  if (friendIndex === -1) {
+    res.send(`Не предусмотренный ндекс массива друзей  ${friendIndex}`);
+  }
 
   if (findUser) {
     findUser.friends.splice(friendIndex, 1);
