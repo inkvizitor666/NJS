@@ -4,7 +4,7 @@ import {
 } from "../../node_modules/@types/express";
 import { Ifriend, IUser } from "./type";
 
-let dbUsers = [
+let dbUsers: IUser[] = [
   {
     id: "1",
     name: "artem",
@@ -54,7 +54,7 @@ export const getUserById = (req: ExpressRequest, res: ExpressResponse) => {
 };
 export const postUser = (req: ExpressRequest, res: ExpressResponse) => {
   const id = Math.ceil(Math.random() * 1000);
-  const name = req.body.name;
+  const name: String = req.body.name;
   const age = Number(req.body.age);
   const friends = req.body.friends;
 
@@ -73,7 +73,7 @@ export const postUser = (req: ExpressRequest, res: ExpressResponse) => {
 };
 export const putUser = (req: ExpressRequest, res: ExpressResponse) => {
   const { userID } = req.params;
-  const name = req.body.name;
+  const name: String = req.body.name;
   const age = Number(req.body.age);
   const friends = req.body.friends;
 
@@ -172,10 +172,10 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
 
 export const postFriend = (req: ExpressRequest, res: ExpressResponse) => {
   const { userID } = req.params;
-  const id = req.body.id;
-  const name = req.body.name;
+  const id: String = req.body.id;
+  const name: String = req.body.name;
   const age = Number(req.body.age);
-  const friends = req.body.friends;
+  const friends: Ifriend[] = req.body.friends;
 
   const findUser = dbUsers.find((user) => {
     return user.id == userID;
@@ -185,7 +185,7 @@ export const postFriend = (req: ExpressRequest, res: ExpressResponse) => {
     return;
   }
 
-  if (typeof name == "string" && !isNaN(age)) {
+  if (typeof id === "string" && typeof name === "string" && !isNaN(age)) {
     findUser.friends.push({
       id: id,
       name: name,
