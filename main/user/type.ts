@@ -16,7 +16,7 @@ interface IHome {
   countDoor: number;
   addres: string;
 }
-interface IHomeWithOutAddres extends Omit<IHome, "addres"> {}
+interface IHomeWithOutAddres extends Omit<IHome, "addres" | "countDoor"> {}
 
 interface IHomeWithPeole<PEOPLE = string> extends IHome {
   people: PEOPLE[];
@@ -42,5 +42,4 @@ const homeWithPeople2: IHomeWithPeole<IUser> = {
 
 const homeWithOutAddres: IHomeWithOutAddres = {
   countWindow: 2,
-  countDoor: 2,
 };
