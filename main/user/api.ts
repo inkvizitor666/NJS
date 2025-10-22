@@ -221,10 +221,14 @@ export const postFriend = (req: ExpressRequest, res: ExpressResponse) => {
   if (friendIndex === -1) {
     res.send(`Не предусмотренный ндекс массива друзей  ${friendIndex}`);
   }
-  if (userID !== friendID) {
+  const findClone = findUser.friends.find((user) => {
+    return user.id == friendID;
+  });
+
+  if (userID !== friendID && !findClone) {
     findUser.friends.push(findFriend);
     res.send(`Добавлен друг с  ID ${friendID}`);
   } else {
-    res.send(`ERR нельзя добавлять в друзья себя`);
+    res.send(`ERR нельзя добавлять в друзья себя либо друг уже в друзьях`);
   }
 };
