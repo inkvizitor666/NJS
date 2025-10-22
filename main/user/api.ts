@@ -126,7 +126,6 @@ export const getFriends = (req: ExpressRequest, res: ExpressResponse) => {
 
   if (!userID) {
     res.send(`Укажите ID`);
-    return;
   }
   const findUser = dbUsers.find((user) => {
     return user.id == userID;
@@ -135,7 +134,7 @@ export const getFriends = (req: ExpressRequest, res: ExpressResponse) => {
     res.send(`Пользователь с ID:${userID} не найден`);
     return;
   }
-  res.send(`У пользователя ${userID} => : ${res.json(findUser.friends)}`);
+  res.json(findUser.friends);
 };
 
 export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
