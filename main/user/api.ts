@@ -117,10 +117,6 @@ export const getUsers = (req: ExpressRequest, res: ExpressResponse) => {
 };
 //##############################FRIENDS################################
 
-//реализовать методы post delete get,
-// post- добавить друга к пользователю по ID ,
-// delete - удалить друга по ID ,
-
 export const getFriends = (req: ExpressRequest, res: ExpressResponse) => {
   const { userID } = req.params;
 
@@ -170,7 +166,7 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
   res.send(`Друг с ID ${friendID} не найден`);
 };
 
-export const postFriend = (req: ExpressRequest, res: ExpressResponse) => {
+/* export const postFriend_OWER_NEW = (req: ExpressRequest, res: ExpressResponse) => {
   const { userID } = req.params;
   const id: String = req.body.id;
   const name: String = req.body.name;
@@ -196,5 +192,39 @@ export const postFriend = (req: ExpressRequest, res: ExpressResponse) => {
     res.send(`Добавлен друг с  ID ${id}`);
   } else {
     res.send(`ERR`);
+  }
+}; */
+
+export const getFriend = (req: ExpressRequest, res: ExpressResponse) => {
+  const { userID, friendID } = req.params;
+
+  const findUser = dbUsers.find((user) => {
+    return user.id == userID;
+  });
+  const findFriend = dbUsers.find((user) => {
+    return user.id == friendID;
+  });
+  if (!findUser) {
+    res.send(`Пользователь с ID:${userID} не найден`);
+    return;
+  }
+  const userIndex = dbUsers.findIndex((user) => user.id === userID);
+  if (userIndex === -1) {
+    res.send(`Не предусмотренный ндекс массива друзей  ${userIndex}`);
+  }
+
+  if (!findFriend) {
+    res.send(`Пользователь с ID:${userID} не найден`);
+    return;
+  }
+  const friendIndex = dbUsers.findIndex((user) => user.id === friendID);
+  if (friendIndex === -1) {
+    res.send(`Не предусмотренный ндекс массива друзей  ${friendIndex}`);
+  }
+  if (userID !== friendID) {
+    findUser.friends.push(findFriend);
+    res.send(`Добавлен друг с  ID ${friendID}`);
+  } else {
+    res.send(`ERR нельзя добавлять в друзья себя`);
   }
 };
