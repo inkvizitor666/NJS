@@ -195,7 +195,7 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
   }
 }; */
 
-export const getFriend = (req: ExpressRequest, res: ExpressResponse) => {
+export const postFriend = (req: ExpressRequest, res: ExpressResponse) => {
   const { userID, friendID } = req.params;
 
   const findUser = dbUsers.find((user) => {
