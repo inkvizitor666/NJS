@@ -8,7 +8,7 @@ export interface IUser {
   id: string;
   name: string;
   age: number;
-  friends: Ifriend[];
+  friends: Map<string, Ifriend>;
 }
 
 interface IHome {
@@ -37,7 +37,7 @@ const homeWithPeople2: IHomeWithPeole<IUser> = {
   countWindow: 1,
   countDoor: 1,
   addres: "zzzzzzzzzzzzzzz",
-  people: [{ id: "0", name: "aaaa", age: 0, friends: [] }],
+  people: [{ id: "0", name: "aaaa", age: 0, friends: new Map() }],
 };
 
 const homeWithOutAddres: IHomeWithOutAddres = {

@@ -33,8 +33,24 @@ let dbUsers: IUser[] = [
 ];
 
 const newDbUser = new Map<string, IUser>();
-newDbUser.set("99", { id: "99", name: "nina5", age: 50, friends: [] });
-newDbUser.set("98", { id: "99", name: "nina10", age: 50, friends: [] });
+newDbUser.set("1", {
+  id: "1",
+  name: "artem",
+  age: 28,
+  friends: new Map(
+    [
+      { id: "2", name: "vika", age: 18, friends: [] },
+      { id: "5", name: "nina1", age: 50, friends: [] },
+      { id: "6", name: "nina2", age: 50, friends: [] },
+      { id: "7", name: "nina3", age: 50, friends: [] },
+      { id: "8", name: "nina4", age: 50, friends: [] },
+      { id: "9", name: "nina5", age: 50, friends: [] },
+    ].map()
+  ),
+});
+newDbUser.set("2", { id: "2", name: "vika", age: 18, friends: [] });
+newDbUser.set("3", { id: "3", name: "stas", age: 40, friends: [] });
+
 console.log(Array.from(newDbUser.values()));
 
 //##############################USER################################
@@ -125,15 +141,14 @@ export const getFriends = (req: ExpressRequest, res: ExpressResponse) => {
 
   if (!userID) {
     res.send(`Укажите ID`);
-  }
-  const findUser = dbUsers.find((user) => {
-    return user.id == userID;
-  });
-  if (!findUser) {
-    res.send(`Пользователь с ID:${userID} не найден`);
     return;
   }
-  res.json(findUser.friends);
+  if (typeof userID !== "string" || !newDbUser.has(userID)) {
+    res.send(`Введены неверные данные`);
+    return;
+  }
+
+  res.json(newDbUser.get(userID)?.friends);
 };
 
 export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
@@ -146,23 +161,14 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
     res.send(`Укажите ID друга`);
     return;
   }
-  const findUser = dbUsers.find((user) => {
-    return user.id == userID;
-  });
+  const findUser = newDbUser.get(userID);
+
   if (!findUser) {
     res.send(`Пользователь с ID:${userID} не найден`);
     return;
   }
 
-  const friendIndex = findUser.friends.findIndex(
-    (user) => user.id === friendID
-  );
-  if (friendIndex === -1) {
-    res.send(`Не предусмотренный ндекс массива друзей  ${friendIndex}`);
-  }
-
-  if (findUser) {
-    findUser.friends.splice(friendIndex, 1);
+  if (!findUser.delete(userID)) {
     res.send(`Друг с ID ${friendID} удален`);
     return;
   }
