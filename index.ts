@@ -14,10 +14,10 @@ import {
 const app = express();
 app.use(express.json());
 //###################USER####################
-app.get("/user/:userID/", getUserById);
+app.get("/user/:id/", getUserById);
 app.post("/user", postUser);
-app.put("/user/:userID/", putUser);
-app.delete("/user/:userID/", deleteUser);
+app.put("/user/:id/", putUser);
+app.delete("/user/:id/", deleteUser);
 app.get("/user", getUsers);
 //#################FRIENDS####################
 //app.get("/user/:userID/friends/", getFriends);
