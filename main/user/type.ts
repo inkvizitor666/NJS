@@ -1,17 +1,25 @@
-export interface Ifriend {
+type WithoutId<I> = Omit<I, "id">;
+
+export interface IUserBase {
   id: string;
   name: string;
   age: number;
-  friends: Ifriend[];
 }
-export interface IUser {
-  id: string;
-  name: string;
-  age: number;
+
+export interface Ifriend extends IUserBase {}
+
+export interface IUser extends IUserBase {
   friends: Map<string, Ifriend>;
 }
 
-interface IHome {
+export interface IUserGetParams extends Pick<IUser, "id"> {}
+export interface IUserPutBody extends Omit<WithoutId<IUser>, "friends"> {}
+
+export interface IUserPutParams extends Pick<IUser, "id"> {}
+export interface IUserPostBody extends WithoutId<IUser> {}
+export interface IUserDeleteParams extends Pick<IUser, "id"> {}
+
+/* interface IHome {
   countWindow: number;
   countDoor: number;
   addres: string;
@@ -29,7 +37,7 @@ const home: IHome = {
 const homeWithPeople: IHomeWithPeole = {
   countWindow: 1,
   countDoor: 1,
-  addres: "zzzzzzzzzzzzzzz",
+  addres: "ул Вавилова",
   people: ["I", "I2"],
 };
 
@@ -42,4 +50,4 @@ const homeWithPeople2: IHomeWithPeole<IUser> = {
 
 const homeWithOutAddres: IHomeWithOutAddres = {
   countWindow: 2,
-};
+}; */
