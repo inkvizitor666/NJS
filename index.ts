@@ -1,12 +1,12 @@
 import * as express from "express";
 import { calculate } from "./main/calculate/calculate";
 import {
-  deleteFriend,
+  //deleteFriend,
   deleteUser,
-  getFriends,
+  //getFriends,
   getUserById,
   getUsers,
-  postFriend,
+  //postFriend,
   postUser,
   putUser,
 } from "./main/user/api";
@@ -20,9 +20,9 @@ app.put("/user/:userID/", putUser);
 app.delete("/user/:userID/", deleteUser);
 app.get("/user", getUsers);
 //#################FRIENDS####################
-app.get("/user/:userID/friends/", getFriends);
-app.delete("/user/:userID/friends/:friendID", deleteFriend);
-app.post("/user/:userID/friends/:friendID", postFriend);
+//app.get("/user/:userID/friends/", getFriends);
+//app.delete("/user/:userID/friends/:friendID", deleteFriend);
+//app.post("/user/:userID/friends/:friendID", postFriend);
 //################CALCULETE###################
 app.get("/calculate", (req, res) => {
   const mathematicalExpression = String(req.query.mathExp);
