@@ -43,9 +43,31 @@ import {
 
 const newDbUser = new Map<string, IUser>();
 
-/* newDbUser.set("1", {id: "1", name: "artem", age: 28, friends:});
-newDbUser.set("2", { id: "2", name: "vika", age: 18, friends:});
-newDbUser.set("3", { id: "3", name: "stas", age: 40, friends:}); */
+newDbUser.set("1", {
+  id: "1",
+  name: "artem",
+  age: 28,
+  friends: new Map<string, Ifriend>([
+    ["2", { id: "2", name: "vika", age: 18 }],
+    ["5", { id: "5", name: "nina1", age: 50 }],
+    ["6", { id: "6", name: "nina2", age: 50 }],
+    ["7", { id: "7", name: "nina3", age: 50 }],
+    ["8", { id: "8", name: "nina4", age: 50 }],
+    ["9", { id: "9", name: "nina5", age: 50 }],
+  ]),
+});
+newDbUser.set("2", {
+  id: "2",
+  name: "vika",
+  age: 18,
+  friends: new Map<string, Ifriend>([]),
+});
+newDbUser.set("3", {
+  id: "3",
+  name: "stas",
+  age: 40,
+  friends: new Map<string, Ifriend>([]),
+});
 
 console.log(Array.from(newDbUser.values()));
 
