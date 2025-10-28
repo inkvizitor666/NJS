@@ -134,7 +134,10 @@ export const deleteUser = (
   }
   res.send(`${id}`);
 };
-export const getUsers = (req: ExpressRequest, res: ExpressResponse) => {
+export const getUsers = (
+  req: ExpressRequest,
+  res: ExpressResponse<IUser[]>
+) => {
   res.json(Array.from(newDbUser.values()));
   return;
 };
