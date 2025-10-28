@@ -6,6 +6,7 @@ import { friendArr } from "./Arr";
 import {
   Ifriend,
   IUser,
+  IUserDeleteParams,
   IUserGetParams,
   IUserPostBody,
   IUserPutBody,
@@ -116,19 +117,22 @@ export const putUser = (
   });
   res.json(newDbUser.get(id));
 };
-export const deleteUser = (req: ExpressRequest, res: ExpressResponse) => {
-  const { userID } = req.params;
+export const deleteUser = (
+  req: ExpressRequest<IUserDeleteParams>,
+  res: ExpressResponse<IUser | string>
+) => {
+  const { id } = req.params;
 
-  if (!userID) {
+  if (!id) {
     res.send(`Поле ID обязательно`);
     return;
   }
 
-  if (!newDbUser.delete(userID)) {
-    res.send(`Пользователь с ID ${userID} не найден`);
+  if (!newDbUser.delete(id)) {
+    res.send(`Пользователь с ID ${id} не найден`);
     return;
   }
-  res.send(`${userID}`);
+  res.send(`${id}`);
 };
 export const getUsers = (req: ExpressRequest, res: ExpressResponse) => {
   res.json(Array.from(newDbUser.values()));
