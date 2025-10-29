@@ -6,18 +6,23 @@ export interface IUserBase {
   age: number;
 }
 
-export interface Ifriend extends IUserBase {}
+export interface IFriend extends IUserBase {}
 
 export interface IUser extends IUserBase {
-  friends: Map<string, Ifriend>;
+  friends: Map<string, IFriend>;
 }
 
 export interface IUserGetParams extends Pick<IUser, "id"> {}
 export interface IUserPutBody extends Omit<WithoutId<IUser>, "friends"> {}
-
 export interface IUserPutParams extends Pick<IUser, "id"> {}
 export interface IUserPostBody extends WithoutId<IUser> {}
 export interface IUserDeleteParams extends Pick<IUser, "id"> {}
+
+export interface IFriendGetParams extends Pick<IFriend, "id"> {}
+//export interface IFriendPostParams extends Pick<IUser, "id"> {friendId: IFriend["id"];}
+export interface IFriendPostParams extends Pick<IUser, "id"> {
+  friendId: string;
+}
 
 /* interface IHome {
   countWindow: number;

@@ -3,10 +3,10 @@ import { calculate } from "./main/calculate/calculate";
 import {
   //deleteFriend,
   deleteUser,
-  //getFriends,
+  getFriends,
   getUserById,
   getUsers,
-  //postFriend,
+  postFriend,
   postUser,
   putUser,
 } from "./main/user/api";
@@ -20,9 +20,9 @@ app.put("/user/:id/", putUser);
 app.delete("/user/:id/", deleteUser);
 app.get("/user", getUsers);
 //#################FRIENDS####################
-//app.get("/user/:userID/friends/", getFriends);
+app.get("/user/:id/friends/", getFriends);
+app.post("/user/:id/friends/:friendId", postFriend);
 //app.delete("/user/:userID/friends/:friendID", deleteFriend);
-//app.post("/user/:userID/friends/:friendID", postFriend);
 //################CALCULETE###################
 app.get("/calculate", (req, res) => {
   const mathematicalExpression = String(req.query.mathExp);

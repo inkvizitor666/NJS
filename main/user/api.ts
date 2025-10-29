@@ -4,7 +4,9 @@ import {
 } from "../../node_modules/@types/express";
 import { friendArr } from "./Arr";
 import {
-  Ifriend,
+  IFriend,
+  IFriendGetParams,
+  IFriendPostParams,
   IUser,
   IUserDeleteParams,
   IUserGetParams,
@@ -13,41 +15,13 @@ import {
   IUserPutParams,
 } from "./type";
 
-/* let dbUsers: IUser[] = [
-  {
-    id: "1",
-    name: "artem",
-    age: 28,
-    friends: [
-      { id: "2", name: "vika", age: 18, friends: [] },
-      { id: "5", name: "nina1", age: 50, friends: [] },
-      { id: "6", name: "nina2", age: 50, friends: [] },
-      { id: "7", name: "nina3", age: 50, friends: [] },
-      { id: "8", name: "nina4", age: 50, friends: [] },
-      { id: "9", name: "nina5", age: 50, friends: [] },
-    ],
-  },
-  {
-    id: "2",
-    name: "vika",
-    age: 18,
-    friends: [],
-  },
-  {
-    id: "3",
-    name: "stas",
-    age: 40,
-    friends: [],
-  },
-]; */
-
 const newDbUser = new Map<string, IUser>();
 
 newDbUser.set("1", {
   id: "1",
   name: "artem",
   age: 28,
-  friends: new Map<string, Ifriend>([
+  friends: new Map<string, IFriend>([
     ["2", { id: "2", name: "vika", age: 18 }],
     ["5", { id: "5", name: "nina1", age: 50 }],
     ["6", { id: "6", name: "nina2", age: 50 }],
@@ -60,16 +34,16 @@ newDbUser.set("2", {
   id: "2",
   name: "vika",
   age: 18,
-  friends: new Map<string, Ifriend>([]),
+  friends: new Map<string, IFriend>([]),
 });
 newDbUser.set("3", {
   id: "3",
   name: "stas",
   age: 40,
-  friends: new Map<string, Ifriend>([]),
+  friends: new Map<string, IFriend>([]),
 });
 
-console.log(Array.from(newDbUser.values()));
+//console.log(Array.from(newDbUser.values()));
 
 //##############################USER################################
 
@@ -116,7 +90,7 @@ export const postUser = (
 };
 export const putUser = (
   req: ExpressRequest<IUserPutParams, any, IUserPutBody>,
-  res: ExpressResponse<Ifriend | string>
+  res: ExpressResponse<IFriend | string>
 ) => {
   const { id } = req.params;
   const name: String = req.body.name;
@@ -165,22 +139,59 @@ export const getUsers = (
 };
 //##############################FRIENDS################################
 
-/* export const getFriends = (req: ExpressRequest, res: ExpressResponse) => {
-  const { userID } = req.params;
+export const getFriends = (
+  req: ExpressRequest<IFriendGetParams>,
+  res: ExpressResponse<IFriend[] | string>
+) => {
+  const { id } = req.params;
 
-  if (!userID) {
+  if (!id) {
     res.send(`Укажите ID`);
     return;
   }
-  if (typeof userID !== "string" || !newDbUser.has(userID)) {
+  if (typeof id !== "string" || !newDbUser.has(id)) {
     res.send(`Введены неверные данные`);
     return;
   }
 
-  res.json(newDbUser.get(userID)?.friends);
+  const bufArr: IFriend[] = [];
+
+  newDbUser.get(id)?.friends.forEach((friend) => {
+    bufArr.push(friend);
+  });
+
+  //newDbUser.get(id)?.friends
+
+  res.json(bufArr);
 };
 
-export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
+export const postFriend = (
+  req: ExpressRequest<IFriendPostParams>,
+  res: ExpressResponse<string>
+) => {
+  const { id, friendId } = req.params;
+
+  const findUser = newDbUser.get(id);
+  console.log(findUser);
+  if (!findUser) {
+    res.send(`Пользователь с ID:${id} не найден`);
+    return;
+  }
+
+  const findFriend = newDbUser.get(friendId);
+  if (!findFriend) {
+    res.send(`Пользователь с ID:${id} не найден`);
+    return;
+  }
+
+  if (id !== friendId) {
+    findUser.friends.set(friendId, findFriend);
+    res.send(`Добавлен друг с  ID ${friendId}`);
+  } else {
+    res.send(`ERR нельзя добавлять в друзья себя либо друг уже в друзьях`);
+  }
+};
+/* export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
   const { userID, friendID } = req.params;
   if (!userID) {
     res.send(`Укажите ID пользователя`);
@@ -202,8 +213,8 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
     return;
   }
   res.send(`Друг с ID ${friendID} не найден`);
-};
- */
+}; */
+
 /* export const postFriend_OWER_NEW = (req: ExpressRequest, res: ExpressResponse) => {
   const { userID } = req.params;
   const id: String = req.body.id;
@@ -211,7 +222,7 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
   const age = Number(req.body.age);
   const friends: Ifriend[] = req.body.friends;
 
-  const findUser = dbUsers.find((user) => {
+  const findUser = newDbUser.find((user) => {
     return user.id == userID;
   });
   if (!findUser) {
@@ -230,43 +241,5 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
     res.send(`Добавлен друг с  ID ${id}`);
   } else {
     res.send(`ERR`);
-  }
-}; */
-
-/* export const postFriend = (req: ExpressRequest, res: ExpressResponse) => {
-  const { userID, friendID } = req.params;
-
-  const findUser = dbUsers.find((user) => {
-    return user.id == userID;
-  });
-  const findFriend = dbUsers.find((user) => {
-    return user.id == friendID;
-  });
-  if (!findUser) {
-    res.send(`Пользователь с ID:${userID} не найден`);
-    return;
-  }
-  const userIndex = dbUsers.findIndex((user) => user.id === userID);
-  if (userIndex === -1) {
-    res.send(`Не предусмотренный ндекс массива друзей  ${userIndex}`);
-  }
-
-  if (!findFriend) {
-    res.send(`Пользователь с ID:${userID} не найден`);
-    return;
-  }
-  const friendIndex = dbUsers.findIndex((user) => user.id === friendID);
-  if (friendIndex === -1) {
-    res.send(`Не предусмотренный ндекс массива друзей  ${friendIndex}`);
-  }
-  const findClone = findUser.friends.find((user) => {
-    return user.id == friendID;
-  });
-
-  if (userID !== friendID && !findClone) {
-    findUser.friends.push(findFriend);
-    res.send(`Добавлен друг с  ID ${friendID}`);
-  } else {
-    res.send(`ERR нельзя добавлять в друзья себя либо друг уже в друзьях`);
   }
 }; */
