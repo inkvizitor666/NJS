@@ -19,8 +19,10 @@ export interface IUserPostBody extends WithoutId<IUser> {}
 export interface IUserDeleteParams extends Pick<IUser, "id"> {}
 
 export interface IFriendGetParams extends Pick<IFriend, "id"> {}
-//export interface IFriendPostParams extends Pick<IUser, "id"> {friendId: IFriend["id"];}
 export interface IFriendPostParams extends Pick<IUser, "id"> {
+  friendId: string;
+}
+export interface IFriendDeleteParams extends Pick<IUser, "id"> {
   friendId: string;
 }
 

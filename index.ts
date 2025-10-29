@@ -1,7 +1,7 @@
 import * as express from "express";
 import { calculate } from "./main/calculate/calculate";
 import {
-  //deleteFriend,
+  deleteFriend,
   deleteUser,
   getFriends,
   getUserById,
@@ -22,7 +22,7 @@ app.get("/user", getUsers);
 //#################FRIENDS####################
 app.get("/user/:id/friends/", getFriends);
 app.post("/user/:id/friends/:friendId", postFriend);
-//app.delete("/user/:userID/friends/:friendID", deleteFriend);
+app.delete("/user/:id/friends/:friendId", deleteFriend);
 //################CALCULETE###################
 app.get("/calculate", (req, res) => {
   const mathematicalExpression = String(req.query.mathExp);
