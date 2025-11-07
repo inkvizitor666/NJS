@@ -1,5 +1,5 @@
 import { Request as ExpressRequest, Response as ExpressResponse } from "../../node_modules/@types/express";
-import { friendArr } from "./Arr";
+import { newDbUser } from "./base";
 import {
   IFriend,
   IFriendGetParams,
@@ -10,37 +10,11 @@ import {
   IUserPostBody,
   IUserPutBody,
   IUserPutParams,
+  IPageGetParams,
+  ICalculateParams,
 } from "./type";
-
-const newDbUser = new Map<string, IUser>();
-
-newDbUser.set("1", {
-  id: "1",
-  name: "artem",
-  age: 28,
-  friends: new Map<string, IFriend>([
-    ["2", { id: "2", name: "vika", age: 18 }],
-    ["5", { id: "5", name: "nina1", age: 50 }],
-    ["6", { id: "6", name: "nina2", age: 50 }],
-    ["7", { id: "7", name: "nina3", age: 50 }],
-    ["8", { id: "8", name: "nina4", age: 50 }],
-    ["9", { id: "9", name: "nina5", age: 50 }],
-  ]),
-});
-newDbUser.set("2", {
-  id: "2",
-  name: "vika",
-  age: 18,
-  friends: new Map<string, IFriend>([]),
-});
-newDbUser.set("3", {
-  id: "3",
-  name: "stas",
-  age: 40,
-  friends: new Map<string, IFriend>([]),
-});
-
-//console.log(Array.from(newDbUser.values()));
+import { calculate } from "../calculate";
+import e = require("../../node_modules/@types/express");
 
 //##############################USER################################
 
@@ -188,4 +162,37 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
     return;
   }
   res.send(`Друг с ID ${friendId} не найден`);
+};
+
+//############################CALCULATE###############################
+export const getCalculate = (req: ExpressRequest<ICalculateParams>, res: ExpressResponse) => {
+  const { mathematicalExpression } = req.query;
+  console.log(mathematicalExpression);
+  if (typeof mathematicalExpression !== "string") {
+    res.send(`ERROR mathematicalExpression: ${mathematicalExpression}`);
+    return;
+  }
+  const resultMathematicalExpression = calculate(mathematicalExpression);
+  res.send(` ${resultMathematicalExpression}`);
+};
+//##############################PAGES################################
+export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressResponse<IUser[] | string>) => {
+  const { numPage, quantityElements } = req.query;
+
+  console.log("numPage:  ", numPage, "quantityElements:  ", quantityElements);
+  if (!numPage) {
+    res.send(`введен не корректный номер страницы не : ${numPage}`);
+  }
+  if (!quantityElements) {
+    res.send(`введено не корректное колличество элементов : ${numPage}`);
+  }
+
+  let quantityWholePages = Math.trunc(newDbUser.size / Number(quantityElements)); //колличетво целых страниц
+  let beginningDesiredPage: number = Number(quantityElements) * Number(numPage) + 1;
+
+  console.log(beginningDesiredPage);
+
+  res.json(Array.from(newDbUser.values()));
+  return;
+  //}
 };

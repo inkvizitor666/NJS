@@ -9,6 +9,8 @@ import {
   postFriend,
   postUser,
   putUser,
+  getPage,
+  getCalculate,
 } from "./main/user/api";
 
 const app = express();
@@ -24,16 +26,10 @@ app.get("/user/:id/friends/", getFriends);
 app.post("/user/:id/friends/:friendId", postFriend);
 app.delete("/user/:id/friends/:friendId", deleteFriend);
 //################CALCULETE###################
-app.get("/calculate", (req, res) => {
-  const mathematicalExpression = String(req.query.mathExp);
-  if (mathematicalExpression) {
-    res.send(`ERROR mathematicalExpression: ${mathematicalExpression}`);
-    return;
-  }
-  const resultMathematicalExpression = calculate(mathematicalExpression);
-  res.send(`Пользователь с ID ${resultMathematicalExpression} не найден`);
-});
+app.get("/calculate/:mathematicalExpression", getCalculate);
+//##################PAGES#####################
+app.get("/page", getPage);
 
-//###########################################
+//############################################
 app.listen(3000);
-console.log("МЫ СТАРТАНУЛИ!");
+console.log("НУ ЧЕ, ПОХГНУЛИ! \n");

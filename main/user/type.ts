@@ -26,6 +26,14 @@ export interface IFriendDeleteParams extends Pick<IUser, "id"> {
   friendId: string;
 }
 
+export interface IPageGetParams {
+  numPage: number;
+  quantityElements: number;
+}
+export interface ICalculateParams {
+  mathematicalExpression: string;
+}
+
 /* interface IHome {
   countWindow: number;
   countDoor: number;
