@@ -206,6 +206,7 @@ export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressRespons
     bufArr = bufArr.filter((obj) => {
       return Number(obj.id) >= beginningDesiredPage;
     });
+    res.json(bufArr);
   }
 
   res.json(`ERR     ШО ТЫ ОТ МЕНЯ ХОЧЕШЬ!?!?!?!`);
