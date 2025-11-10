@@ -188,10 +188,28 @@ export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressRespons
   }
 
   let quantityWholePages = Math.trunc(newDbUser.size / Number(quantityElements)); //колличетво целых страниц
-  let beginningDesiredPage: number = Number(quantityElements) * Number(numPage) + 1;
-
+  let beginningDesiredPage: number = Number(quantityElements) * Number(numPage) - Number(quantityElements) + 1; //первый элемент нужной страницы
   console.log(beginningDesiredPage);
+  let bufArr = Array.from(newDbUser.values());
+  if (newDbUser.size % Number(quantityElements) != 0) {
+    bufArr = bufArr.filter((obj) => {
+      return (
+        Number(obj.id) >= beginningDesiredPage && Number(obj.id) <= beginningDesiredPage + Number(quantityElements) - 1
+      );
+    });
+    res.json(bufArr);
+    return;
+  }
+  if (Number(quantityElements)! <= 1) {
+    res.json(bufArr.filter((obj) => Number(obj.id) == beginningDesiredPage));
+    return;
+  }
+  if (newDbUser.size % Number(quantityElements) == 0) {
+    bufArr = bufArr.filter((obj) => {
+      return Number(obj.id) >= beginningDesiredPage;
+    });
+  }
 
-  res.json(Array.from(newDbUser.values()));
+  res.json(`ERR     ШО ТЫ ОТ МЕНЯ ХОЧЕШЬ!?!?!?!`);
   return;
 };
