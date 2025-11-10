@@ -177,43 +177,28 @@ export const getCalculate = (req: ExpressRequest, res: ExpressResponse) => {
 };
 //##############################PAGES################################
 export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressResponse<IUser[] | string>) => {
-  const { numPage, quantityElements } = req.query;
-  //REVIEW: Обычно параметры называют Page, Limit.
-  console.log("numPage:  ", numPage, "quantityElements:  ", quantityElements);
-  //REVIEW: Стоит проверить их на принадлежность к числам. И Делать return после res.send
-  if (!numPage) {
-    res.send(`введен не корректный номер страницы не : ${numPage}`);
-  }
-  if (!quantityElements) {
-    res.send(`введено не корректное колличество элементов : ${numPage}`);
-  }
-  let beginningDesiredPage: number = Number(quantityElements) * Number(numPage) - Number(quantityElements) + 1; //первый элемент нужной страницы
-  console.log(beginningDesiredPage);
-  let bufArr = Array.from(newDbUser.values());
-  if (newDbUser.size % Number(quantityElements) != 0) {
-    //REVIEW: Плохая идея привязываться к id, учитывая что новым пользователям id генерируется "String(Math.ceil(Math.random() * 1000))", можно использовать индекс.
-    bufArr = bufArr.filter((obj, indexObj) => {
-      //REVIEW: indexObj является индексом по которому obj находится в bufArr. (bufArr[indexObj] === obj)
-      return (
-        Number(obj.id) >= beginningDesiredPage && Number(obj.id) <= beginningDesiredPage + Number(quantityElements) - 1
-      );
-    });
-    res.json(bufArr);
+  const { Page, Limit } = req.query;
+  console.log("numPage:  ", Page, "quantityElements:  ", Limit);
+
+  if (!Page || isNaN(Number(Page)) || Number(Page) == 0) {
+    res.send(`введен не корректный номер страницы не : ${Page}`);
     return;
   }
-  //REVIEW: Чо за '!' знак в условии
-  if (Number(quantityElements)! <= 1) {
-    res.json(bufArr.filter((obj) => Number(obj.id) == beginningDesiredPage));
+  if (!Limit || isNaN(Number(Limit)) || Number(Limit) == 0) {
+    res.send(`введено не корректное колличество элементов : ${Limit}`);
     return;
-  }
-  //REVIEW: Если передать quantityElements == 1 то будет возвращен весь список?
-  if (newDbUser.size % Number(quantityElements) == 0) {
-    bufArr = bufArr.filter((obj) => {
-      return Number(obj.id) >= beginningDesiredPage;
-    });
-    res.json(bufArr);
   }
 
-  res.json(`ERR     ШО ТЫ ОТ МЕНЯ ХОЧЕШЬ!?!?!?!    `);
+  let beginningDesiredPage: number = Number(Limit) * Number(Page) - Number(Limit) + 1; //первый элемент нужной страницы
+  console.log(beginningDesiredPage);
+
+  let bufArr = Array.from(newDbUser.values());
+
+  //REVIEW: Плохая идея привязываться к id, учитывая что новым пользователям id генерируется "String(Math.ceil(Math.random() * 1000))", можно использовать индекс.
+  bufArr = bufArr.filter((obj, indexObj) => {
+    //REVIEW: indexObj является индексом по которому obj находится в bufArr. (bufArr[indexObj] === obj)
+    return Number(obj.id) >= beginningDesiredPage && Number(obj.id) <= beginningDesiredPage + Number(Limit) - 1;
+  });
+  res.json(bufArr);
   return;
 };
