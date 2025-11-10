@@ -26,7 +26,7 @@ app.get("/user/:id/friends/", getFriends);
 app.post("/user/:id/friends/:friendId", postFriend);
 app.delete("/user/:id/friends/:friendId", deleteFriend);
 //################CALCULETE###################
-app.get("/calculate/:mathematicalExpression", getCalculate);
+app.get("/calculate", getCalculate);
 //##################PAGES#####################
 app.get("/page", getPage);
 

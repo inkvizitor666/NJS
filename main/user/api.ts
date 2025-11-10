@@ -165,7 +165,7 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
 };
 
 //############################CALCULATE###############################
-export const getCalculate = (req: ExpressRequest<ICalculateParams>, res: ExpressResponse) => {
+export const getCalculate = (req: ExpressRequest, res: ExpressResponse) => {
   const { mathematicalExpression } = req.query;
   console.log(mathematicalExpression);
   if (typeof mathematicalExpression !== "string") {
@@ -173,7 +173,7 @@ export const getCalculate = (req: ExpressRequest<ICalculateParams>, res: Express
     return;
   }
   const resultMathematicalExpression = calculate(mathematicalExpression);
-  res.send(` ${resultMathematicalExpression}`);
+  res.send(`${resultMathematicalExpression}`);
 };
 //##############################PAGES################################
 export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressResponse<IUser[] | string>) => {
@@ -194,5 +194,4 @@ export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressRespons
 
   res.json(Array.from(newDbUser.values()));
   return;
-  //}
 };

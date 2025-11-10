@@ -1,5 +1,5 @@
-import { testFunction } from "../testHelper.js";
-import { calculate } from "./calculate.ts";
+import { testFunction } from "../testHelper";
+import { calculate } from "./calculate";
 
 const testCasesCalculate = [
   {

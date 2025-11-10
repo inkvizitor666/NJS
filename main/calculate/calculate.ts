@@ -13,11 +13,7 @@ export function calculate(str: string) {
       throw Error;
     }
     const currentOperation = getOperationFunc(sign);
-    if (
-      typeof buf2 != "number" ||
-      typeof buf != "number" ||
-      !currentOperation
-    ) {
+    if (typeof buf2 != "number" || typeof buf != "number" || !currentOperation) {
       throw Error;
     }
 

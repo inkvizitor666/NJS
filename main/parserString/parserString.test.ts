@@ -1,7 +1,5 @@
-import { parserString } from "./parserString.ts";
-import { testFunction } from"../testHelper.js";
-
-
+import { parserString } from "./parserString";
+import { testFunction } from "../testHelper";
 
 const testCases = [
   {
@@ -18,4 +16,4 @@ const testCases = [
   },
 ];
 
-testFunction(parserString,testCases);
+testFunction(parserString, testCases);
