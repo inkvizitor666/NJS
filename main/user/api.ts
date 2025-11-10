@@ -180,16 +180,16 @@ export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressRespons
   const { Page, Limit } = req.query;
   console.log("numPage:  ", Page, "quantityElements:  ", Limit);
 
-  if (!Page || isNaN(Number(Page)) || Number(Page) == 0) {
+  if (!Page || isNaN(Number(Page)) || Number(Page) <= 0) {
     res.send(`введен не корректный номер страницы не : ${Page}`);
     return;
   }
-  if (!Limit || isNaN(Number(Limit)) || Number(Limit) == 0) {
+  if (!Limit || isNaN(Number(Limit)) || Number(Limit) <= 0) {
     res.send(`введено не корректное колличество элементов : ${Limit}`);
     return;
   }
 
-  let beginningDesiredPage: number = Number(Limit) * Number(Page) - Number(Limit) + 1; //первый элемент нужной страницы
+  let beginningDesiredPage: number = Number(Limit) * Number(Page) - Number(Limit); //первый элемент нужной страницы
   console.log(beginningDesiredPage);
 
   let bufArr = Array.from(newDbUser.values());
@@ -197,7 +197,7 @@ export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressRespons
   //REVIEW: Плохая идея привязываться к id, учитывая что новым пользователям id генерируется "String(Math.ceil(Math.random() * 1000))", можно использовать индекс.
   bufArr = bufArr.filter((obj, indexObj) => {
     //REVIEW: indexObj является индексом по которому obj находится в bufArr. (bufArr[indexObj] === obj)
-    return Number(obj.id) >= beginningDesiredPage && Number(obj.id) <= beginningDesiredPage + Number(Limit) - 1;
+    return indexObj >= beginningDesiredPage && indexObj <= beginningDesiredPage + Number(Limit) - 1;
   });
   res.json(bufArr);
   return;
