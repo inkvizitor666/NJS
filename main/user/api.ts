@@ -209,6 +209,6 @@ export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressRespons
     res.json(bufArr);
   }
 
-  res.json(`ERR     ШО ТЫ ОТ МЕНЯ ХОЧЕШЬ!?!?!?!`);
+  res.json(`ERR     ШО ТЫ ОТ МЕНЯ ХОЧЕШЬ!?!?!?!    `);
   return;
 };
