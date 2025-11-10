@@ -186,8 +186,6 @@ export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressRespons
   if (!quantityElements) {
     res.send(`введено не корректное колличество элементов : ${numPage}`);
   }
-
-  let quantityWholePages = Math.trunc(newDbUser.size / Number(quantityElements)); //колличетво целых страниц
   let beginningDesiredPage: number = Number(quantityElements) * Number(numPage) - Number(quantityElements) + 1; //первый элемент нужной страницы
   console.log(beginningDesiredPage);
   let bufArr = Array.from(newDbUser.values());
