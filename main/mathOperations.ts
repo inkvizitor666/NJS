@@ -14,7 +14,7 @@ export function getOperationFunc(sign: string) {
     case "/":
       return division;
     default:
-      console.log("ERR2");
+      console.log("ERR не задиклорированный символ");
       return null;
   }
 }
