@@ -13,7 +13,7 @@ import {
   IPageGetParams,
   ICalculateParams,
 } from "./type";
-import { calculate } from "../calculate";
+import { calculate } from "../calculate/calculate";
 import e = require("../../node_modules/@types/express");
 
 //##############################USER################################
@@ -168,11 +168,15 @@ export const deleteFriend = (req: ExpressRequest, res: ExpressResponse) => {
 export const getCalculate = (req: ExpressRequest, res: ExpressResponse) => {
   const { mathematicalExpression } = req.query;
   console.log(mathematicalExpression);
-  if (typeof mathematicalExpression !== "string") {
+
+  if (typeof mathematicalExpression != "string") {
     res.send(`ERROR mathematicalExpression: ${mathematicalExpression}`);
     return;
   }
+
   const resultMathematicalExpression = calculate(mathematicalExpression);
+
+  console.log("result:  ", resultMathematicalExpression);
   res.send(`${resultMathematicalExpression}`);
 };
 //##############################PAGES################################
@@ -194,9 +198,7 @@ export const getPage = (req: ExpressRequest<IPageGetParams>, res: ExpressRespons
 
   let bufArr = Array.from(newDbUser.values());
 
-  //REVIEW: Плохая идея привязываться к id, учитывая что новым пользователям id генерируется "String(Math.ceil(Math.random() * 1000))", можно использовать индекс.
   bufArr = bufArr.filter((obj, indexObj) => {
-    //REVIEW: indexObj является индексом по которому obj находится в bufArr. (bufArr[indexObj] === obj)
     return indexObj >= beginningDesiredPage && indexObj <= beginningDesiredPage + Number(Limit) - 1;
   });
   res.json(bufArr);

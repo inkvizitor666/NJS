@@ -9,7 +9,9 @@ export function calculate(str: string) {
     const sign = args[i];
     const buf = args[i + 1];
     const buf2 = argsRedon[argsRedon.length - 1];
+
     if (typeof sign != "string") {
+      console.log("ALARM!!!!");
       throw Error;
     }
     const currentOperation = getOperationFunc(sign);

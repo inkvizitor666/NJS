@@ -29,7 +29,6 @@ app.delete("/user/:id/friends/:friendId", deleteFriend);
 app.get("/calculate", getCalculate);
 //##################PAGES#####################
 app.get("/page", getPage);
-
 //############################################
 app.listen(3000);
 console.log("НУ ЧЕ, ПОХГНУЛИ! \n");

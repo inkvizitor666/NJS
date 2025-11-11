@@ -3,7 +3,7 @@ export function parserString(string: string) {
   for (let i = 0; i < string.length; i++) {
     const num = Number(string[i]);
     if (isNaN(num)) {
-      arrPars.push(Number(string[i]));
+      arrPars.push(String(string[i]));
     } else {
       const lastIndex: number = arrPars.length - 1;
       const lastElementItem = arrPars[lastIndex];
